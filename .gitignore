@@ -13,7 +13,5 @@ web-build/
 # macOS
 .DS_Store
 
-# presentation files
-
-presentation_video.pptx
-project_v2_tagaev.ZIP
+#firebase setup
+firebase.js
