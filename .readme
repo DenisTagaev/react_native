@@ -1,0 +1,17 @@
+This is a quick overview of an app functionality:
+
+Login Screen is loaded initially allowing user to register or sign in using Firebase =>
+
+After Login/Sign Up ContactList screen is loaded. Header has SignOut Icon to return to Login.
+
+Bottom navigation has 3 additional screens to load and is available from each of them.
+
+ContactList has a List of contacts loaded from Firebase. On top there's a button to open
+Dialog with input fields to create new contact. Contacts are sorted alphabetically and have
+a Delete button on their right.
+
+Phone screen has an API to chose country code, Input field to complete number, and button to
+open device's native phone app with prefilled number.
+
+Message screen allows user to chose a reciever and write a message. Those will be transfered
+to phone native app by click on Send Sms button.
