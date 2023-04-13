@@ -1,14 +1,26 @@
 import { TextInput } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Dialog from "react-native-dialog";
 import styles from "../stylesheets/styles";
 
-export default function DialogBox(props) {
-  const [editedContact, setEditedContact] = useState({ name: "", number: "" });
+export default function EditDialogBox(props) {
+  const [editedContact, setEditedContact] = useState({ 
+    id:"", 
+    name: "", 
+    number: "" 
+  });
+
+  useEffect(() => {
+    setEditedContact(props.toUpdate);
+  }, [props.toUpdate]);
 
   const editContact = () => {
-    props.onDataSuccess(editedContact);
-    setEditedContact({ name: "", number: "" });
+    props.onUpdateSuccess(editedContact);
+    setEditedContact({
+      id:"", 
+      name: "", 
+      number: "" 
+    });
     props.onCancel();
   };
 
@@ -21,16 +33,24 @@ export default function DialogBox(props) {
       <TextInput
         style={styles.textInput}
         placeholder="Name"
+        value={editedContact.name}
         onChangeText={(value) =>
-          setEditedContact((editedContact) => ({ ...editedContact, name: value }))
+          setEditedContact((editedContact) => ({
+            ...editedContact,
+            name: value,
+          }))
         }
       />
       <TextInput
         style={styles.textInput}
         placeholder="Number"
         keyboardType="numeric"
+        value={editedContact.number}
         onChangeText={(value) =>
-          setEditedContact((editedContact) => ({ ...editedContact, number: value }))
+          setEditedContact((editedContact) => ({
+            ...editedContact,
+            number: value,
+          }))
         }
       />
       <Dialog.Button

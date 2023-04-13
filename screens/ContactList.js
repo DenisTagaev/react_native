@@ -5,11 +5,18 @@ import { collection, doc, getDocs, addDoc, deleteDoc, updateDoc } from '@firebas
 import { db } from "../firebase";
 import Navbar from '../navigation/navbar';
 import styles from "../stylesheets/styles";
-import DialogBox from '../components/NewDialog';
+import NewDialogBox from '../components/NewDialog';
+import EditDialogBox from '../components/EditDialog';
 
 const ContactList = ({ navigation }) => {
   const [contacts, setContacts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({
+    id: "",
+    name: "",
+    number: "",
+  });
   const contactsCollection = collection(db, 'contacts');
 
   useEffect(()=>{
@@ -30,7 +37,7 @@ const ContactList = ({ navigation }) => {
     navigation.replace('ContactList');
   }
 
-  const deleteContact = async(id) => {
+  const deleteContactHandler = async(id) => {
     const contactDoc = doc(db, "contacts", id);
     await deleteDoc(contactDoc)
       .then(Alert.alert("You deleted contact!"))
@@ -38,10 +45,10 @@ const ContactList = ({ navigation }) => {
     navigation.replace("ContactList");
   }
 
-  const editContact = async (id) => {
-    const contactDoc = doc(db, "contacts", id);
-    await updateDoc(contactDoc)
-      .then(Alert.alert("You deleted contact!"))
+  const editContactHandler = async (contact) => {
+    const contactDoc = doc(db, "contacts", contact.id);
+    await updateDoc(contactDoc, contact)
+      .then(Alert.alert("You've successfully updated  contact!"))
       .catch((err) => console.error(err));
     navigation.replace("ContactList");
   };
@@ -91,7 +98,7 @@ const ContactList = ({ navigation }) => {
               {`\n`}
               {item.number}
             </Text>
-            <View>
+            <View style={styles.controlButtons}>
               <Icon.Button
                 style={{
                   backgroundColor: "#395481",
@@ -101,7 +108,7 @@ const ContactList = ({ navigation }) => {
                 }}
                 name="delete"
                 size={22}
-                onPress={() => deleteContact(item.id)}
+                onPress={() => deleteContactHandler(item.id)}
               />
               <Icon.Button
                 style={{
@@ -112,7 +119,10 @@ const ContactList = ({ navigation }) => {
                 }}
                 name="edit"
                 size={22}
-                onPress={() => editContact(item.id)}
+                onPress={() => {
+                  setIsOpenEdit(true);
+                  setSelectedItem(item);
+                }}
                 />
             </View>
           </View>
@@ -123,10 +133,16 @@ const ContactList = ({ navigation }) => {
           </View>
         )}
       />
-      <DialogBox
+      <NewDialogBox
         visible={isOpen}
         onDataSuccess={newContactHandler}
         onCancel={() => setIsOpen(false)}
+      />
+      <EditDialogBox
+        toUpdate={selectedItem}
+        visible={isOpenEdit}
+        onUpdateSuccess={editContactHandler}
+        onCancel={() => setIsOpenEdit(false)}
       />
       <Navbar navigation={navigation} />
     </View>

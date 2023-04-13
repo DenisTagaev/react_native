@@ -111,10 +111,15 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   row: {
-    paddingHorizontal: 10,
+    paddingStart: 10,
     paddingVertical: 10,
     borderRadius: 5,
     flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  controlButtons: {
+    flexDirection: "row",
+    width: 115,
     justifyContent: "space-between",
   },
 });

@@ -2,7 +2,7 @@ import { TextInput } from 'react-native';
 import React, { useState }from 'react';
 import Dialog from "react-native-dialog";
 import styles from "../stylesheets/styles";
-export default function DialogBox(props) {
+export default function NewDialogBox(props) {
   const [newContact, setNewContact] = useState({name: '', number: ''});
 
   const createContact = () => {
